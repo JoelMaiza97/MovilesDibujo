@@ -3,7 +3,9 @@ package com.doodlzapp;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -13,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
+import android.widget.Toast;
 import androidx.fragment.app.DialogFragment;
 
 // class for the Select Line Width dialog
@@ -37,6 +40,7 @@ public class LineWidthDialogFragment extends DialogFragment {
         widthImageView = (ImageView) lineWidthDialogView.findViewById(
                 R.id.widthImageView);
 
+
         // configure widthSeekBar
         final DoodleView doodleView = getDoodleFragment().getDoodleView();
         final SeekBar widthSeekBar = (SeekBar)
@@ -44,10 +48,19 @@ public class LineWidthDialogFragment extends DialogFragment {
         widthSeekBar.setOnSeekBarChangeListener(lineWidthChanged);
         widthSeekBar.setProgress(doodleView.getLineWidth());
 
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("joel", Context.MODE_PRIVATE);
+        int valor = sharedPreferences.getInt("widthSeekBar",0);
+        doodleView.setLineWidth(valor);
+
         // add Set Line Width Button
         builder.setPositiveButton(R.string.button_set_line_width,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("joel", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putInt("widthSeekBar",widthSeekBar.getProgress());
+                        editor.commit();
+                        //Toast.makeText(getActivity(), String.valueOf(widthSeekBar.getProgress()), Toast.LENGTH_SHORT).show();
                         doodleView.setLineWidth(widthSeekBar.getProgress());
                     }
                 }

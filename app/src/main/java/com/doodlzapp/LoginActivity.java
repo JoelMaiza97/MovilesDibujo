@@ -8,7 +8,7 @@ import android.os.Bundle;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText usuario;
+    private EditText usuario, usuario2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,14 +16,16 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         usuario = findViewById(R.id.editTextUsuario);
+        usuario2 = findViewById(R.id.editTextUsuario);
+
     }
 
     public void login2(View view){
-        String u;
+        String u, u2;
         u = usuario.getText().toString();
-
-        if(u.equals("joel")){
-            Intent intent = new Intent(this, LoginActivity2.class);
+        u2 = usuario2.getText().toString();
+        if(u.equals("joel") || u2.equals("maiza")){
+            Intent intent = new Intent(this, MainActivity.class);
             this.startActivity(intent);
         }
     }
